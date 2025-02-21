@@ -2,11 +2,27 @@ import { FormData, LessonPlanForm } from "@/components/LessonPlanForm"
 import { LessonPlanPreview } from "@/components/LessonPlanPreview"
 import { Skeleton } from "@/components/ui/skeleton";
 import { chatSession } from "@/utils/AIModel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Switch } from "@/components/ui/switch"
 
 export const Planner=()=>{
-    const [generatedContent, setGeneratedContent] = useState('');
+    //init with stored generated content in local storage
+    const [generatedContent, setGeneratedContent] = useState(()=>{
+        const savedContent = localStorage.getItem('generatedLessonPlan');
+        return savedContent || '';
+    });
     const [loading, setLoading] = useState(false);
+
+    const [darkMode, setDarkMode] = useState(() => JSON.parse(localStorage.getItem('darkMode') || 'false'));
+
+    useEffect(() => {
+        localStorage.setItem('darkMode', JSON.stringify(darkMode));
+        document.documentElement.classList.toggle('dark', darkMode);
+    }, [darkMode]);
+    
+      useEffect(() => {
+        if (generatedContent) localStorage.setItem('generatedLessonPlan', generatedContent);
+      }, [generatedContent]);
 
     const generateAILessonPlan = async (formData:FormData) => {
         setLoading(true);
@@ -44,8 +60,12 @@ export const Planner=()=>{
     };
 
     return (
-        <div className="shadow-lg p-6 bg-white rounded-lg">
+        <div className="shadow-lg p-6 rounded-lg">
             <div className="grid grid-cols-1 gap-8">
+                <div className="flex justify-end">
+                    <span className="mr-2 text-gray-900">Dark Mode</span>
+                    <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+                </div>
                 {/* <LessonPlanForm onSubmitFormData={(v:any)=>console.log(v)} /> */}
                 <LessonPlanForm onSubmitFormData={(formData)=>generateAILessonPlan(formData)} />
                 {loading ? (
