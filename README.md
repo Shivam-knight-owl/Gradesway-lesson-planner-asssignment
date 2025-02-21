@@ -1,50 +1,128 @@
-# React + TypeScript + Vite
+# Lesson Planner App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered Lesson Planner web application built using **Vite**, **React**, **TailwindCSS**, and **ShadCN UI components**. The app integrates the **Google Gemini API** to dynamically generate detailed lesson plans, including editable content and PDF download functionality. Features like dark mode and local storage persistence are also included.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ✅ **Dummy Authentication** (Frontend-only)
+- ✅ **Structured Lesson Plan Form** with real-time user inputs
+- ✅ **AI-Generated Lesson Plans** using **Google Gemini API**
+- ✅ **Editable Lesson Plan Preview**
+- ✅ **Download as PDF** with `react-to-print`
+- ✅ **Dark Mode Support** with local storage persistence
+- ✅ **Persistent Form Data and Generated Content** via local storage
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
+## ⚡ Setup Instructions
 
-- Configure the top-level `parserOptions` property like this:
+### 1️⃣ Clone the Repository
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone https://github.com/Shivam-knight-owl/Gradesway-lesson-planner-asssignment.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2️⃣ Install Dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+### 3️⃣ Set up Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+> 💡 Replace `your_gemini_api_key_here` with your actual Google Gemini API key.
+
+### 4️⃣ Run the Application
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:5173` to view the app.
+
+---
+
+## 🔗 Google Gemini API Integration
+
+- The Gemini API is integrated via the `@google/generative-ai` package.
+- Configuration is set using a `.env` variable for the API key.
+
+### ✅ **Key Integration Steps:**
+
+```ts
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+const generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+    responseMimeType: "text/plain",
+  };
+  
+export const chatSession = model.startChat({
+  generationConfig,
+  history: [
+  ],
+});
+```
+
+---
+
+📄 PDF Download Functionality
+
+- Utilizes `jsPDF` for PDF generation.
+- Ensure `jspdf` is installed:
+
+```bash
+npm install jspdf
+```
+
+### 💡 **PDF Download Trigger:**
+
+```tsx
+import jsPDF from "jspdf";
+
+const handleDownloadPDF = (generatedContent: string) => {
+  const pdf = new jsPDF();
+  const lines = pdf.splitTextToSize(generatedContent, 180);
+  pdf.text(lines, 10, 10);
+  pdf.save("lesson_plan.pdf");
+};
+```
+
+---
+
+## 🌙 Dark Mode & Persistence
+
+- **Dark Mode** toggle with local storage persistence.
+- **Form Data** and **Generated Content** are saved in local storage to persist across refreshes.
+
+---
+
+## 💎 Technologies Used
+
+- [Vite](https://vitejs.dev/)
+- [React](https://reactjs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [ShadCN UI](https://ui.shadcn.com/)
+- [Google Gemini API](https://ai.google.dev/)
+- [jsPDF](https://github.com/parallax/jsPDF)
+
+---
+
+## 🎉 Acknowledgments
+
+- Thanks to [Google AI](https://ai.google.dev/) for providing the Gemini API.
+- Inspired by modern educational tools to enhance lesson planning.
