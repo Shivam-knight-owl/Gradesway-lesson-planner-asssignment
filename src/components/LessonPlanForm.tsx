@@ -38,17 +38,23 @@ export function LessonPlanForm({ onSubmitFormData }: { onSubmitFormData: (data: 
   };
 
   return (
-    <Card className="bg-white p-6 rounded-lg shadow">
+    <Card className="bg-white p-2 rounded-lg shadow">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">Create Lesson Plan</CardTitle>
+        <CardTitle className="text-2xl font-bold text-center">Create Lesson Plan</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
+
           <Input name="topic" placeholder="Topic (e.g. Introduction to Fractions)" value={formData.topic} onChange={handleChange} />
+
           <Input name="gradeLevel" placeholder="Grade Level (e.g. 6th Grade)" value={formData.gradeLevel} onChange={handleChange} />
+
           <Input name="mainConcept" placeholder="Main Concept" value={formData.mainConcept} onChange={handleChange} />
+
           <Textarea name="subtopics" placeholder="Subtopics (comma-separated)" value={formData.subtopics} onChange={handleChange} rows={3} />
+
           <Textarea name="materials" placeholder="Materials Needed..." value={formData.materials} onChange={handleChange} rows={3} />
+
           <Textarea name="objectives" placeholder="Learning Objectives..." value={formData.objectives} onChange={handleChange} rows={3} />
 
           <Accordion type="single" collapsible>
@@ -60,13 +66,13 @@ export function LessonPlanForm({ onSubmitFormData }: { onSubmitFormData: (data: 
             </AccordionItem>
           </Accordion>
 
-          <div className="flex justify-end space-x-4">
-            <Button type="button" variant="ghost" onClick={() => setFormData({
+          <div className="flex justify-center space-x-4">
+            <Button type="button" variant="ghost" className='cursor-pointer' onClick={() => setFormData({
               topic: '', gradeLevel: '', mainConcept: '', subtopics: '', materials: '', objectives: '', outline: ''
             })}>
               Clear
             </Button>
-            <Button type="submit" variant="default">
+            <Button type="submit" variant="default" className='cursor-pointer'>
               Generate Plan
             </Button>
           </div>

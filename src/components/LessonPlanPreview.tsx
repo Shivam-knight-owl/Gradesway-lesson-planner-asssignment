@@ -12,7 +12,7 @@ export function LessonPlanPreview({ generatedContent }: LessonPlanPreviewProps) 
         </CardHeader>
         <CardContent>
           {generatedContent ? (
-            <div className="space-y-4 whitespace-pre-wrap">{generatedContent}</div>
+            <div className="space-y-4 whitespace-pre-wrap break-words">{generatedContent}</div>
           ) : (
             <p className="text-gray-500">No content generated yet.</p>
           )}
