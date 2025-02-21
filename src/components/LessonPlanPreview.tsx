@@ -10,10 +10,33 @@ export function LessonPlanPreview({ generatedContent }: LessonPlanPreviewProps) 
 
     const handleDownloadPDF = () => {
         const pdf = new jsPDF();
+      
+        const margin = 10; // Margin on all sides
+        const pageWidth = pdf.internal.pageSize.getWidth(); 
+        const pageHeight = pdf.internal.pageSize.getHeight(); 
+        const maxWidth = pageWidth - 2 * margin; 
+        const lineHeight = 10; 
+        let y = margin; 
+      
         if (generatedContent) {
-          const lines = pdf.splitTextToSize(generatedContent, 180);
-          pdf.text(lines, 10, 10); 
+          
+          const lines = pdf.splitTextToSize(generatedContent, maxWidth);
+      
+          // Add each line to the PDF
+          for (let i = 0; i < lines.length; i++) {
+            // Check if the current line will fit on the page
+            if (y + lineHeight > pageHeight - margin) {
+              pdf.addPage(); // Add a new page
+              y = margin; // Reset the vertical position
+            }
+      
+            // Add the line to the PDF
+            pdf.text(lines[i], margin, y);
+            y += lineHeight; // Move to the next line
+          }
         }
+      
+        // Save the PDF
         pdf.save("lesson_plan.pdf");
       };
 

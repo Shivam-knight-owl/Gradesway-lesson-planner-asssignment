@@ -73,18 +73,18 @@ export function LessonPlanForm({ onSubmitFormData }: { onSubmitFormData: (data: 
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Input name="topic" placeholder="Topic (e.g. Introduction to Fractions)" value={formData.topic} onChange={handleChange} />
-          
-          <Input name="gradeLevel" placeholder="Grade Level (e.g. 6th Grade)" value={formData.gradeLevel} onChange={handleChange} />
-          
+          <Input name="topic" placeholder="Topic (e.g. Introduction to Newton's Laws of Motion)" value={formData.topic} onChange={handleChange} />
+
+          <Input name="gradeLevel" placeholder="Grade Level (e.g. 11th Grade)" value={formData.gradeLevel} onChange={handleChange} />
+
           <Input name="mainConcept" placeholder="Main Concept" value={formData.mainConcept} onChange={handleChange} />
-          
+
           <Textarea name="subtopics" placeholder="Subtopics (comma-separated)" value={formData.subtopics} onChange={handleChange} rows={3} />
-          
+
           <Textarea name="materials" placeholder="Materials Needed..." value={formData.materials} onChange={handleChange} rows={3} />
-          
+
           <Textarea name="objectives" placeholder="Learning Objectives..." value={formData.objectives} onChange={handleChange} rows={3} />
-          
+
           <Accordion type="single" collapsible>
             <AccordionItem value="outline">
               <AccordionTrigger>Lesson Outline</AccordionTrigger>
