@@ -10,7 +10,7 @@ An AI-powered Lesson Planner web application built using **Vite**, **React**, **
 - ✅ **Structured Lesson Plan Form** with real-time user inputs
 - ✅ **AI-Generated Lesson Plans** using **Google Gemini API**
 - ✅ **Editable Lesson Plan Preview**
-- ✅ **Download as PDF** with `react-to-print`
+- ✅ **Download as PDF** with `jsPDF`
 - ✅ **Dark Mode Support** with local storage persistence
 - ✅ **Persistent Form Data and Generated Content** via local storage
 
