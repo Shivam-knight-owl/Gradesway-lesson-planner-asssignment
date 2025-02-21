@@ -27,11 +27,8 @@ export const Planner=()=>{
     const generateAILessonPlan = async (formData:FormData) => {
         setLoading(true);
 
-        const prompt = `Generate a detailed and well-structured lesson plan for the topic: ${formData.topic} (Grade: ${formData.gradeLevel}).\n
-        \nThe output should follow these formatting rules:
-        \n- Use clear headings without markdown symbols (#, *, **, etc.).
-        \n- Headings should be capitalized and underlined with dashes.
-        \n- Use hyphens (-) for bullet points without extra symbols.
+        const prompt = `Generate a detailed and well-structured lesson plan for the topic: ${formData.topic}\n
+        (Grade: ${formData.gradeLevel}).
         \n- Ensure the sections include:
         \n  Subject: ${formData.topic}
         \n  Grade Level: ${formData.gradeLevel}
@@ -42,8 +39,7 @@ export const Planner=()=>{
         \n  Lesson Outline: ${formData.outline}\n- Include:
         \n  1. Detailed Lesson Content
         \n  2. Suggested Classroom Activities
-        \n  3. Assessment Questions
-        \n- The response should be in clean plain text with no markdown characters.`;
+        \n  3. Assessment Questions`;
 
         try {
             const result=await chatSession.sendMessage(prompt);
@@ -64,12 +60,19 @@ export const Planner=()=>{
             <div className="grid grid-cols-1 gap-8">
                 <div className="flex justify-end">
                     <span className="mr-2 text-gray-900">Dark Mode</span>
-                    <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} />
+                    <Switch checked={darkMode} onCheckedChange={() => setDarkMode(!darkMode)} className=" cursor-pointer" />
                 </div>
                 {/* <LessonPlanForm onSubmitFormData={(v:any)=>console.log(v)} /> */}
                 <LessonPlanForm onSubmitFormData={(formData)=>generateAILessonPlan(formData)} />
                 {loading ? (
-                    <Skeleton className="h-96 w-full" />
+                <div className="space-y-4">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" /> 
+                    <Skeleton className="h-4 w-5/6" /> 
+                    <Skeleton className="h-4 w-full" /> 
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
                 ) : (
                     <LessonPlanPreview generatedContent={generatedContent}/>
                 )}
